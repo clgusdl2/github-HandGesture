@@ -50,10 +50,10 @@ class handDetector(): # 시작과 함께 다음을 진행한다.
 
 
     def findPosition(self, img, handNo=0, draw=True):
-       # xList = []
-       # yList = []
-       # bbox = []
-        lmList = [] # 손의 위치값을 담아 둘 리스트를 작성합니다.
+        xList = []
+        yList = []
+        bbox = []
+        self.lmList = [] # 손의 위치값을 담아 둘 리스트를 작성합니다.
         
         if self.results.multi_hand_landmarks: # 만약 결과값이 존재한다면 다음을 진행합니다.
             myHand = self.results.multi_hand_landmarks[handNo]  # 결과값의 0번 인덱스를 myHand변수로 저장합니다.
@@ -71,14 +71,14 @@ class handDetector(): # 시작과 함께 다음을 진행한다.
                 lmList.append([id, cx, cy]) # 이 때의 값들을 lmList에 저장합니다.
                 if draw:
                     cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)
-           # xmin, xmax = min(xList), max(xList)
-           # ymin, ymax = min(yList), max(yList)
-           # bbox = xmin, ymin, xmax, ymax
+            xmin, xmax = min(xList), max(xList)
+            ymin, ymax = min(yList), max(yList)
+            bbox = xmin, ymin, xmax, ymax
             
-           # if draw:
-            #    cv2.rectangle(img, (bbox[0] - 20, bbox[1] - 20),(bbox[2] + 20, bbox[3] + 20), (0, 255, 0), 2)
+            if draw:
+                cv2.rectangle(img, (bbox[0] - 20, bbox[1] - 20),(bbox[2] + 20, bbox[3] + 20), (0, 255, 0), 2)
     
-        return lmList
+        return self.lmList,bbox
         #, bbox
     def fingersUp(self):
         fingers = []
